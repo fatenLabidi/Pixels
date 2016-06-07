@@ -1,3 +1,109 @@
-body {
-	background-color: red;
+/*Tout ce qui concerne la page d'accueil*/
+*{
+  margin: 0;
+  padding: 0;
+}
+body, html{
+  height: 100%;
+}
+#wrapper{
+  position: relative;
+  min-height: 100%;
+}
+
+header{
+  height: 10em;
+}
+header ul{
+  text-align: right;
+}
+header ul li{
+  padding: 0.5em;
+  display: inline-block;
+}
+header ul a{
+  text-decoration: none;
+}
+footer{
+  box-sizing: border-box;
+  position: absolute;
+  background-color: #008090;
+  padding: 1em;
+  bottom: 0;
+  min-height: 2em;
+  width: 100%;
+  text-align: center;
+}
+footer li{
+  display: inline-block;
+  text-align: center;
+}
+footer li a{
+  display: inline-block;
+  width: 100%;
+  text-decoration: none;
+  color: white;
+}
+nav{
+  position: static;
+  text-align: center;
+}
+nav li{
+  display: inline-block;
+  padding: 0.5em;
+}
+nav li a{
+  display: inline-block;
+  width: 100%;
+  text-decoration: none;
+}
+#search .search-query{
+  display: block;
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+
+}
+
+/*Tout ce qui concerne la connexion et le nouveau compte utilisateur*/
+#container h1{
+  text-align: center;
+}
+.formLogin{
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+  margin-bottom: 5em;
+}
+.formLogin{
+  position: relative;
+  height: auto;
+  padding: auto;
+  -wekit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  z-index: 5;
+  background-color: #f7f7f7;
+  box-shadow: 0em 2em 2em rgba(0, 0, 0, 0.3);
+}
+
+.infosLogin{
+  position: relative;
+  height: auto;
+  padding: 1em;
+  margin-bottom: 1em;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+.connexion{
+  padding: 1em;
+}
+
+.seSouvenir{
+  margin-bottom: 5em;
+}
+.CreerCompte{
+  display: block;
+  margin-top: -4em;
+  text-align: center;
 }
