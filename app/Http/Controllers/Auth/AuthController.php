@@ -18,7 +18,7 @@ class AuthController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        return view('auth\login');
+        return view('auth/login');
     }
 
     /*
