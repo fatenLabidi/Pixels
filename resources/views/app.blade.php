@@ -5,7 +5,9 @@
         <meta charset="utf-8">
         <script src="{{ asset('/front/js/packJs.php') }}"></script>
         <link href="{{ asset('/front/css/main.css') }}" rel="stylesheet">
-        <link rel="icon" type="image/png" href="{{ asset('/front/favicon.ico') }}" />
+        <link rel="icon" type="image/png" href="{{ asset('/favicon.png') }}" />
+        <!--[if IE]><link rel="shortcut icon" type="image/x-icon" href="{{ asset('/favicon.ico') }}" /><![endif]-->
+
     </head>
     <body class="image">
         <div id="wrapper">
