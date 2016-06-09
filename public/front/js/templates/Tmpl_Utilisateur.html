@@ -1,17 +1,134 @@
-<!DOCTYPE html>
-<html lang="fr">
-  <head>
-    <title>Ciao</title>
-    <meta charset="utf-8">
-    <script src="js/packJs.php"></script>
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="icon" type="image/png" href="favicon.ico" />
-  </head>
-  <body>
-    <div id="wrapper">
-      <header class="main">
-      </header>
-      <main>
-      </main>
-    </div>
-  </body>
+<h1 class="pseudo">Bonjour {{pseudo}}</h1>
+
+
+<ul id="menuCompteUtilisateur">
+    <li class="showProfil"><a href="#informationsPersonnelles">Modifier son profil</a></li>
+    <li class="showQuizResultat"><a href="#quizQuizResultat">Résultats quiz</a></li>
+    <li class="showCategorieCreer"><a href="#categorieCreer">Catégories créées</a></li>
+    <li class="showThemeCreer"><a href="#themeCreer">Thèmes créées</a></li>
+    <li class="showFicheCreer"><a href="#ficheCreer">Fiches créées</a></li>
+    <li class="showQuizCreer"><a href="#quizCreer">Quiz créés</a></li>
+</ul>
+
+
+
+<div id="informationsPersonnelles" class="informationsPersonnelles">
+
+    <h2>Informations personnelles</h2>   
+    
+    <p>Tu peux vérifier et modifier les éléments reliés à ton pseudo, y compris ton mot de passe. Il n'est par contre pas possible de modifier ton pseudo: si tu veux en changer il faut en créer un nouveau. Tous les champs de ce formulaire sont obligatoires.</p>
+
+
+
+        <button class="validerModification modification">Valider modification</button>
+        <button class="annuler modification">Annuler</button>
+        
+        <form class="informationsConnexion">
+            
+            <h3>Informations de connexion</h3>
+            
+            <label>Pseudo</label> 
+            <input disabled="disabled" type="text" value="{{pseudo}}">
+            
+            <h4>Modifier son mot de passe</h4>
+            <p class="legende">(à remplir seulement si tu veux un nouveau mot de passe)</p>
+            <p class="legende">Ton mot de passe doit avoir au minimum 6 caractères et 4 caractères différents</p>
+     
+            <input type="password" class="mod_motDePasse" placeholder="mot de passe">
+            <input type="password" class="mod_motDePasseConfirmation" placeholder="mot de passe de confirmation">
+            <button class="showMotDePasse" type="button" title="Hide/Show mot de passe">Affiche le mot de passe</button>
+
+        </form>
+        
+        <form class="autresInformations">
+        
+            <h3>Autres informations</h3>
+
+            <p>Les informations suivantes sont importantes pour te donner une réponse appropriée</p>
+            
+            
+            <label>Année de naissance</label> 
+            <input type="number" class="mod_anneeNaissance" value="{{anneeNaissance}}">
+            <p class="error error_anneeNaissance"></p>
+            
+            <label>Sexe</label> 
+            <select name="sexe">
+                <option selected id="{{sexe}}">{{sexe}}</option>
+                <optgroup label="Changer pour">
+                    <option id="homme">homme</option>
+                    <option id="femme">femme</option>
+                </optgroup>
+            </select>
+            
+            <label>Email</label>
+            <input type="email" class="mod_email" value="{{email}}">
+            <p class="error error_email"></p>
+
+            
+            <label>Pays ou Canton</label> 
+            <select name="pays">
+                <option selected id="{{pays}}">{{pays}}</option>
+                    <optgroup label="Suisse">
+                        <option id="{{region}}">{{region}}</option>
+                    </optgroup>
+                    <optgroup label="Autres pays">
+                        <option id="{{pays}}">{{pays}}</option>
+                    </optgroup>
+            </select>            
+        </form>
+        
+        <form class="questionSecrete">
+            <h3>Question secrète</h3>
+            <label>Question secrète</label>
+            <select name="questionSecrete">
+                <option selected id="{{questionSecrete}}">{{questionSecrete}}</option>
+                <option id="{{questionSecrete}}">{{questionSecrete}}</option>
+            </select>
+            <label>Réponse à la question secrète :</label> 
+            <input type="text" class="mod_email" value="{{email}}">
+        </form>
+</div>
+
+
+<div id="quizResultat" class="quizResultat">
+    <h2>Résultat Quiz</h2>
+   
+    <dl> 
+        <dt>{{nomQuiz}}</dt> 
+        <dd>{{questionQuiz}}</dd> 
+        <dd>{{reponseUtilisateur}}</dd> 
+        <dd>{{bonneQuestion}}</dd> 
+        <dd>{{explication}}</dd>
+    </dl>
+
+</div>
+
+
+
+
+<div id="categorieCreer" class="showCategorieCreer">
+    <h2>Catégorie créées</h2>
+    <p><a href="{{titre}}">{{titre}}</a></p>
+    <p>{{date}}</p>
+</div>
+
+<div id="themeCreer" class="showThemeCreer">
+    <h2>Thème créés</h2>
+    <p><a href="{{titre}}">{{titre}}</a></p>
+    <p>{{date}}</p>
+</div>
+
+<div id="ficheCreer" class="showFicheCreer">
+    <h2>Fiche créées</h2>
+    <p><a href="{{titre}}">{{titre}}</a></p>
+    <p>{{date}}</p>
+</div>
+
+
+<div id="quizCreer" class="showQuizCreer">
+    <h2>Quiz créés</h2>
+    
+    <p><a href="{{titre}}">{{titre}}</a></p>
+    <p>{{date}}</p>
+
+</div>
