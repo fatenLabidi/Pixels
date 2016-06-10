@@ -16,6 +16,7 @@ class CreateModificationsFichesTable extends Migration {
             $table->unsignedInteger('fichesId');
             $table->unsignedInteger('modificationId');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('fichesId')->references('id')->on('fiches')->onDelete('cascade');
             $table->foreign('modificationId')->references('id')->on('modifications')->onDelete('cascade');

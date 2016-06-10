@@ -17,11 +17,11 @@ class CreateAccesTable extends Migration
             $table->unsignedInteger('groupeId');
             $table->unsignedInteger('serviceApplicatifId');
             $table->timestamps();
+            $table->softDeletes();
             
             $table->foreign('groupeId')->references('id')->on('groupes')->onDelete('cascade');
             $table->foreign('serviceApplicatifId')->references('id')->on('servicesApplicatifs')->onDelete('cascade');
             $table->primary(['groupeId','serviceApplicatifId']);
-
         });
     }
 

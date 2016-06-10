@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests;
 use App\Lib\Message;
 use Illuminate\Http\Request;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
 use App\Models\Utilisateur;
+use Illuminate\Support\Facades\DB;
 
 class UtilisateurCtrl extends Controller {
 
@@ -19,8 +18,8 @@ class UtilisateurCtrl extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        $utilisateurs = Client::all();
-        return view('utilisateur/index')->with('utilisateur', $utilisateurs);
+        //$utilisateurs = Utilisateur::all();
+        //return view('utilisateur/index')->with('utilisateur', $utilisateurs);
     }
 
     /**
@@ -39,7 +38,7 @@ class UtilisateurCtrl extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request) {
-        
+        //$validation = Utilisateur::estValide($request);
     }
 
     /**

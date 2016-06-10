@@ -20,6 +20,7 @@ class CreateCategoriesNewsTable extends Migration {
             $table->foreign('newsId')->references('id')->on('news')->onDelete('cascade');
             $table->primary(['categorieId', 'newsId']);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

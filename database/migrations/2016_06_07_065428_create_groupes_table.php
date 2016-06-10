@@ -17,6 +17,7 @@ class CreateGroupesTable extends Migration
             $table->increments('id')->unsigned();
             $table->string('nom')->index();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

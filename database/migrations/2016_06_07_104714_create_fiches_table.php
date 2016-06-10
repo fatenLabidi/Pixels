@@ -20,6 +20,7 @@ class CreateFichesTable extends Migration
             $table->boolean('estValide');
             $table->unsignedInteger('themeId');
             $table->timestamps();
+            $table->softDeletes();
             
             $table->foreign('themeId')->references('id')->on('themes')->onDelete('cascade');
             

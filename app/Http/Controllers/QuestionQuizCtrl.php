@@ -6,10 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests;
 use App\Lib\Message;
 use Illuminate\Http\Request;
-use Illuminate\Http\Request;
+//use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 use App\Models\QuestionQuiz;
+use App\Models\Quiz;
 
 class QuestionQuizCtrl extends Controller {
 
@@ -27,8 +28,8 @@ class QuestionQuizCtrl extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function create() {
-        //
+    public function create($id) {
+        return view('quiz/creerQuestion');
     }
 
     /**
@@ -39,6 +40,68 @@ class QuestionQuizCtrl extends Controller {
      */
     public function store(Request $request) {
         
+        // récupérerer identifiant quiz
+        $identifiantQuiz = Request::only('identifiantQuiz');
+        
+        // Vérifier existence quiz et pas encore validé
+        $validationQuiz = Quiz::existe($identifiantQuiz);
+        
+        
+        $validationQuestion = QuestionQuiz::estValide($request);
+        
+        if($validationQuestion->fails()) {
+            return 'Pas de question :\'(';
+        }
+        
+        $validationReponses = ReponseQuiz::estValide($request);
+        
+        if($validationReponses->fails()) {
+            return 'Pas de réponse :\'(';
+        }
+        
+        $questionValide = $validationQuestion->getData();
+        
+        // Début de la transaction
+        DB::beginTransaction();
+        try {
+            // On tente de créer la question et ses réponses
+            QuestionQuiz::creer($questionValide);
+            
+            // Si pas d'erreur, on "valide" la création
+            DB::commit();
+            
+            // Message de succès, puis renvoi sur le formulaire de création
+            //Message::success('commande.created');
+            //return redirect('commande');
+            echo 'ça marche !';
+        } catch (\Exception $e) {
+            // Si une erreur survient, on "annule" la création
+            DB::rollback();
+            // Message d'erreur, puis renvoi sur le formulaire avec inputs
+            //Message::error('bd.error', ['error' => $e->getMessage()]);
+            //return redirect()->back()->withInput();
+            echo 'Bug à la création ...';
+        }
+        
+        //$inputQuestionReponses = Request::only('question', 'reponse');
+        //$inputReponses = Request::only('reponse');
+
+        /*
+        // Compte le nombre de réponses données par l'utilisateur
+        $count = 0;
+        foreach ($inputQuestionReponses['reponse'] as $reponses) {
+            foreach ($reponses as $reponse) {
+                if ($reponse != null) {
+                    $count++;
+                }
+            }
+        }
+
+        if ($count < 2) {
+            echo 'Pas assez de réponses.';
+        }*/
+        
+        //$validation = QuestionQuiz::estValide($inputQuestionReponses);
     }
 
     /**

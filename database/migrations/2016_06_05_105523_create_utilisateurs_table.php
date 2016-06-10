@@ -17,15 +17,16 @@ class CreateUtilisateursTable extends Migration {
             $table->engine = 'InnoDB';
             $table->increments('id')->unsigned();
             $table->string('pseudo')->unique();
-            $table->date('motDePasse');
-            $table->date('anneeNaissance');
-            $table->string('sexe');
-            $table->string('email');
-            $table->string('reponseQuestionSecrete');
+            $table->string('motDePasse');
+            $table->date('anneeNaissance')->nullable();
+            $table->string('sexe')->nullable();
+            $table->string('email')->nullable();
+            $table->string('reponseQuestionSecrete')->nullable();
             $table->unsignedInteger('paysId');
-            $table->unsignedInteger('regionId');
-            $table->unsignedInteger('questionSecreteId');
+            $table->unsignedInteger('regionId')->nullable();
+            $table->unsignedInteger('questionSecreteId')->nullable();
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('paysId')->references('id')->on('pays')->onDelete('cascade');
             $table->foreign('regionId')->references('id')->on('regions')->onDelete('cascade');

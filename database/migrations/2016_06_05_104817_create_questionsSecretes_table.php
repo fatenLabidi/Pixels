@@ -16,6 +16,7 @@ class CreateQuestionsSecretesTable extends Migration {
             $table->increments('id')->unsigned();
             $table->string('description');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

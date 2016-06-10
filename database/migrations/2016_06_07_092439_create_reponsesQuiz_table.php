@@ -19,6 +19,7 @@ class CreateReponsesQuizTable extends Migration
             $table->boolean('estBonneReponse');
             $table->unsignedInteger('questionQuizId');
             $table->timestamps();
+            $table->softDeletes();
             
             $table->foreign('questionQuizId')->references('id')->on('questionsQuiz')->onDelete('cascade');
         });

@@ -12,14 +12,16 @@ class CreateQuizTable extends Migration
      */
     public function up()
     {
-        Schema::create('quiz', function (Blueprint $table) {
+        Schema::create('quizzes', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id')->unsigned();
             $table->string('nom');
             $table->string('conseil');
             $table->unsignedInteger('auteur');
             $table->unsignedInteger('categorieId');
+            $table->boolean('estValide')->default(false);
             $table->timestamps();
+            $table->softDeletes();
             
             $table->foreign('auteur')->references('id')->on('utilisateurs')->onDelete('cascade');
             $table->foreign('categorieId')->references('id')->on('categories')->onDelete('cascade');
@@ -33,6 +35,6 @@ class CreateQuizTable extends Migration
      */
     public function down()
     {
-        Schema::drop('quiz');
+        Schema::drop('quizzes');
     }
 }

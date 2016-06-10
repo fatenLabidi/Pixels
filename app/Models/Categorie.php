@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Validator;
 
 class Categorie extends Model
 {
@@ -12,6 +14,16 @@ class Categorie extends Model
      * @var array
      */
     protected $dates = ['deleted_at'];
+    
+    /**
+     * les attributs qu'on peut assigner au model.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'nom'
+    ];
+    
     
     //Jointures 
     
@@ -36,10 +48,17 @@ class Categorie extends Model
      */
     public function themes()
     {
-        return $this->hasOne('App\Models\Theme')->withTimestamps();
+        return $this->hasMany('App\Models\Theme')->withTimestamps();
     }
     
-    
+    /* 
+     * Permet de verifier si une catégorie existe dans la BD
+     * @return bool true si l'e groupe'utilisateur a l'acces à un service 
+     */
+    public static function existe($id)
+    {
+        return self::find($id) !== null;
+    }
     /*
      * Permet de valider le model 
      * 

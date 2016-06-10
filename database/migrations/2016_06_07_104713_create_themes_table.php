@@ -18,6 +18,7 @@ class CreateThemesTable extends Migration
             $table->string('nom')->index();
             $table->unsignedInteger('categorieId');
             $table->timestamps();
+            $table->softDeletes();
             
             $table->foreign('categorieId')->references('id')->on('categories')->onDelete('cascade');
         });

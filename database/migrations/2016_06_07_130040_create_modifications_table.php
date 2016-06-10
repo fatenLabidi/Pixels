@@ -17,6 +17,7 @@ class CreateModificationsTable extends Migration
             $table->increments('id')->unsigned();
             $table->unsignedInteger('utilisateurId');
             $table->timestamps();
+            $table->softDeletes();
             
             $table->foreign('utilisateurId')->references('id')->on('utilisateurs')->onDelete('cascade');
         });

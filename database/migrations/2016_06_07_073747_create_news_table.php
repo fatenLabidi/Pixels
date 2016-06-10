@@ -19,6 +19,7 @@ class CreateNewsTable extends Migration
             $table->string('contenu');
             $table->boolean('estValide');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

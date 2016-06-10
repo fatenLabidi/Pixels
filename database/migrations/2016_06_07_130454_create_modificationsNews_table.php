@@ -16,6 +16,7 @@ class CreateModificationsNewsTable extends Migration {
             $table->unsignedInteger('newsId');
             $table->unsignedInteger('modificationId');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('newsId')->references('id')->on('news')->onDelete('cascade');
             $table->foreign('modificationId')->references('id')->on('modifications')->onDelete('cascade');

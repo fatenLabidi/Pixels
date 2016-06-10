@@ -18,6 +18,7 @@ class CreatePaysTable extends Migration
             $table->string('nom')->index();
             $table->string('nomCourt');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

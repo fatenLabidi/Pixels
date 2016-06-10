@@ -18,6 +18,7 @@ class CreateRegionsTable extends Migration
             $table->string('nom');
             $table->unsignedInteger('paysId');
             $table->timestamps();
+            $table->softDeletes();
             
             $table->foreign('paysId')->references('id')->on('pays')->onDelete('cascade');
         });

@@ -18,9 +18,10 @@ class CreateReponsesUtilisateursTable extends Migration
             $table->unsignedInteger('quizId');
             $table->unsignedInteger('reponseQuizId');
             $table->timestamps();
+            $table->softDeletes();
             
             $table->foreign('utilisateurId')->references('id')->on('utilisateurs')->onDelete('cascade');
-            $table->foreign('quizId')->references('id')->on('quiz')->onDelete('cascade');
+            $table->foreign('quizId')->references('id')->on('quizzes')->onDelete('cascade');
             $table->foreign('reponseQuizId')->references('id')->on('reponsesQuiz')->onDelete('cascade');
             $table->primary(['utilisateurId','quizId','reponseQuizId']);
         });
