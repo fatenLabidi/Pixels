@@ -20,7 +20,14 @@ class CreateCategoriesNewsTable extends Migration {
             $table->foreign('newsId')->references('id')->on('news')->onDelete('cascade');
             $table->primary(['categorieId', 'newsId']);
             $table->timestamps();
+            $table->softDeletes();
         });
+        
+        /*
+        DB::statement("ALTER TABLE categoriesNews comment 'Permet de stocker "
+                . "quelles News appartiennent à quelles catégories'");
+         * 
+         */
     }
 
     /**
@@ -29,7 +36,10 @@ class CreateCategoriesNewsTable extends Migration {
      * @return void
      */
     public function down() {
+        // Enlève temporairement le check des contraintes de clés étrangères
+        Schema::disableForeignKeyConstraints();
         Schema::drop('categoriesNews');
+        Schema::enableForeignKeyConstraints();
     }
 
 }

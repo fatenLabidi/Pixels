@@ -20,10 +20,13 @@ class CreateFichesTable extends Migration
             $table->boolean('estValide');
             $table->unsignedInteger('themeId');
             $table->timestamps();
+            $table->softDeletes();
             
             $table->foreign('themeId')->references('id')->on('themes')->onDelete('cascade');
             
         });
+        
+        // DB::statement("ALTER TABLE fiches comment 'Permet de stocker une fiche appartenant à un thème.'");
     }
 
     /**
@@ -33,6 +36,9 @@ class CreateFichesTable extends Migration
      */
     public function down()
     {
+        // Enlève temporairement le check des contraintes de clés étrangères
+        Schema::disableForeignKeyConstraints();
         Schema::drop('fiches');
+        Schema::enableForeignKeyConstraints();
     }
 }

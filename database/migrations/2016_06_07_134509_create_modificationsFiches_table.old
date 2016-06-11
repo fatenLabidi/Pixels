@@ -16,11 +16,16 @@ class CreateModificationsFichesTable extends Migration {
             $table->unsignedInteger('fichesId');
             $table->unsignedInteger('modificationId');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('fichesId')->references('id')->on('fiches')->onDelete('cascade');
             $table->foreign('modificationId')->references('id')->on('modifications')->onDelete('cascade');
             $table->primary(['modificationId', 'fichesId']);
         });
+        
+        DB::statement("ALTER TABLE modificationsFiches comment 'Table intermédiaire "
+                . "entre Fiches et Modifications. Permet de stocker les clés étrangères "
+                . "afin de tracer qui fait quoi et à quel moment.");
     }
 
     /**
@@ -29,7 +34,10 @@ class CreateModificationsFichesTable extends Migration {
      * @return void
      */
     public function down() {
+        // Enlève temporairement le check des contraintes de clés étrangères
+        Schema::disableForeignKeyConstraints();
         Schema::drop('modificationsFiches');
+        Schema::enableForeignKeyConstraints();
     }
 
 }

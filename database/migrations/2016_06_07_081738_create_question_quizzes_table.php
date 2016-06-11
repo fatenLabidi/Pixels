@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateGroupesTable extends Migration
+class CreateQuestionQuizzesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,19 +12,17 @@ class CreateGroupesTable extends Migration
      */
     public function up()
     {
-        Schema::create('groupes', function (Blueprint $table) {
+        Schema::create('question_quizzes', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id')->unsigned();
-            $table->string('nom')->index();
+            $table->string('description');
+            $table->string('explication');
+            $table->boolean('estValide')->default(false);
             $table->timestamps();
             $table->softDeletes();
         });
         
-        /*
-        DB::statement("ALTER TABLE groupes comment 'Permet de grouper les "
-                . "utilisateurs, notamment pour les droits d\'accès.'");
-         * 
-         */
+        // DB::statement("ALTER TABLE questionsQuiz comment 'Permet de stocker des questions liées aux quizzes'");
     }
 
     /**
@@ -36,7 +34,7 @@ class CreateGroupesTable extends Migration
     {
         // Enlève temporairement le check des contraintes de clés étrangères
         Schema::disableForeignKeyConstraints();
-        Schema::drop('groupes');
+        Schema::drop('question_quizzes');
         Schema::enableForeignKeyConstraints();
     }
 }

@@ -1,17 +1,26 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+//namespace App\Http\Controllers\Auth;
 
-use App\Models\User;
-use Hash;
+namespace App\Http\Controllers;
 
-use Validator;
+//use Illuminate\Http\RedirectResponse;
+
+use App\Lib\Message;
+//use Illuminate\Http\Request;
+use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Models\Utilisateur;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use Hash;
+use Validator;
+use Request;
+use Illuminate\Support\Facades\Session;
 
 class AuthController extends Controller {
-    
+
     /**
      * Affiche une liste des ressources
      *
@@ -21,25 +30,33 @@ class AuthController extends Controller {
         return view('auth/login');
     }
 
-    /*
     public function connexion() {
-        $motDePasse = Request::input('motDePasse', '');
-        $pseudo = Request::input('pseudo', '');
-        
-        $utilisateur = Utilisateur::where("pseudo", $pseudo)->first();
 
-        // Vérification utilisateur existe
-        if (!isset($utilisateur)) {
-            return 'Connexion échouée.';
+        $inputsUtilisateur = Request::only('pseudo', 'motDePasse');
+
+        // Validation des entrées
+        if (!Utilisateur::estValide($inputsUtilisateur)) {
+            // Retour si échec
+            //return redirect()->back()->withInput()->withErrors($validate);
         }
 
+        // Récupération de l'utilisateur correspondant dans la BD
+        $utilisateur = Utilisateur::where("pseudo", $inputsUtilisateur['pseudo'])->first();
+        
+        // Vérification existence utilisateur
+        if (!isset($utilisateur)) {
+            return 'Identifiants incorrects.';
+        }        
+        
         // Vérification mot de passe
-        if (!Hash::check($motDePasse, $utilisateur->password)) {
-            return 'Connexion échouée.';
+        if (!Hash::check($inputsUtilisateur['motDePasse'], $utilisateur->motDePasse)) {
+            return 'Identifiants incorrects.';
         }
 
         // Authentification persistance
-        Session::put('utilisateur_pseudo', $utilisateur->pseudo);
+        
+        // id technique
+        //Session::put('utilisateur_pseudo', $utilisateur->pseudo);
         return 'Connexion réussie.';
     }
 
@@ -47,7 +64,6 @@ class AuthController extends Controller {
         Session::forget('utilisateur_pseudo');
         return 'Déconnexion réussie.';
     }
-     */
 
     /*
       |--------------------------------------------------------------------------
@@ -87,10 +103,9 @@ use AuthenticatesAndRegistersUsers,
      */
     protected function validator(array $data) {
         return Validator::make($data, [
-                    'name' => 'required|max:255',
-                    'email' => 'required|email|max:255|unique:users',
-                    'password' => 'required|min:6|confirmed',
-        ]);
+                    'pseudo' => 'required|max:255',
+                    'password' => 'required|min:6',
+                ])->passes();
     }
 
     /**
