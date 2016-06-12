@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateQuizTable extends Migration
+class CreateQuizzesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -26,6 +26,8 @@ class CreateQuizTable extends Migration
             $table->foreign('auteur')->references('id')->on('utilisateurs')->onDelete('cascade');
             $table->foreign('categorieId')->references('id')->on('categories')->onDelete('cascade');
         });
+        
+        // DB::statement("ALTER TABLE quizzes comment 'Permet de stocker des quizzes'");
     }
 
     /**
@@ -35,6 +37,9 @@ class CreateQuizTable extends Migration
      */
     public function down()
     {
+        // Enlève temporairement le check des contraintes de clés étrangères
+        Schema::disableForeignKeyConstraints();
         Schema::drop('quizzes');
+        Schema::enableForeignKeyConstraints();
     }
 }

@@ -18,6 +18,12 @@ class CreateQuestionsSecretesTable extends Migration {
             $table->timestamps();
             $table->softDeletes();
         });
+        
+        /* Les commentaires fonctionnent avec mysql mais pas pgsql ... */
+        
+        //DB::statement("COMMENT ON TABLE questionsSecretes IS 'Permet de créer des questions secrètes, pour la récupération du mot de passe utilisateur.'");        
+        //DB::statement("ALTER TABLE questionsSecretes comment 'Permet de créer des "
+        //        . "questions secrètes, pour la récupération du mot de passe utilisateur.'");
     }
 
     /**
@@ -26,7 +32,12 @@ class CreateQuestionsSecretesTable extends Migration {
      * @return void
      */
     public function down() {
+        
+        // Enlève temporairement le check des contraintes de clés étrangères
+        Schema::disableForeignKeyConstraints();
         Schema::drop('questionsSecretes');
+        Schema::enableForeignKeyConstraints();
+        
     }
 
 }

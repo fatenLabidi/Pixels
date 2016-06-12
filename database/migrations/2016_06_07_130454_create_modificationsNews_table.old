@@ -22,6 +22,10 @@ class CreateModificationsNewsTable extends Migration {
             $table->foreign('modificationId')->references('id')->on('modifications')->onDelete('cascade');
             $table->primary(['modificationId', 'newsId']);
         });
+        
+        DB::statement("ALTER TABLE modificationsNews comment 'Table intermédiaire "
+                . "entre News et Modifications. Permet de stocker les clés étrangères "
+                . "afin de tracer qui fait quoi et à quel moment.");
     }
 
     /**
@@ -30,7 +34,10 @@ class CreateModificationsNewsTable extends Migration {
      * @return void
      */
     public function down() {
+        // Enlève temporairement le check des contraintes de clés étrangères
+        Schema::disableForeignKeyConstraints();
         Schema::drop('modificationsNews');
+        Schema::enableForeignKeyConstraints();
     }
 
 }

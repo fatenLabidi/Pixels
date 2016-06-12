@@ -13,6 +13,13 @@
                 <input type="text" class="form-control" name="question">
             </div>
         </div>
+        
+        <div class="form-group">
+            <label class="col-md-4 control-label">Explication</label>
+            <div class="col-md-6">
+                <input type="text" class="form-control" name="explication">
+            </div>
+        </div>
 
         <div class="form-group">
             <label class="col-md-4 control-label">Reponse 1 (doit être la bonne réponse)</label>

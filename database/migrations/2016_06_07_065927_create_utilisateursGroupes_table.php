@@ -22,6 +22,12 @@ class CreateUtilisateursGroupesTable extends Migration {
             $table->foreign('groupeId')->references('id')->on('groupes')->onDelete('cascade');
             $table->foreign('utilisateurId')->references('id')->on('utilisateurs')->onDelete('cascade');
         });
+        
+        /*
+        DB::statement("ALTER TABLE utilisateursGroupes comment 'Permet d\'assigner "
+                . "des utilisateurs à des groupes.'");
+         * 
+         */
     }
 
     /**
@@ -30,7 +36,10 @@ class CreateUtilisateursGroupesTable extends Migration {
      * @return void
      */
     public function down() {
+        // Enlève temporairement le check des contraintes de clés étrangères
+        Schema::disableForeignKeyConstraints();
         Schema::drop('utilisateursGroupes');
+        Schema::enableForeignKeyConstraints();
     }
 
 }

@@ -21,6 +21,8 @@ class CreateNewsTable extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
+        
+        // DB::statement("ALTER TABLE news comment 'Permet de stocker des News'");
     }
 
     /**
@@ -30,6 +32,9 @@ class CreateNewsTable extends Migration
      */
     public function down()
     {
+        // Enlève temporairement le check des contraintes de clés étrangères
+        Schema::disableForeignKeyConstraints();
         Schema::drop('news');
+        Schema::enableForeignKeyConstraints();
     }
 }

@@ -8,10 +8,12 @@ use Validator;
 //use Request;
 use Illuminate\Http\Request;
 //use Illuminate\Support\Facades\Validator;
+use App\Models\QuestionQuiz;
+use App\Models\ReponseQuiz;
+use App\Models\QuestionQuizQuiz;
 
+class QuestionQuiz extends Model {
 
-class QuestionQuiz extends Model
-{
     use SoftDeletes;
 
     /**
@@ -26,7 +28,7 @@ class QuestionQuiz extends Model
      * @var array
      */
     protected $fillable = [
-        'description','explication'
+        'description', 'explication'
     ];
 
     /*
@@ -34,48 +36,79 @@ class QuestionQuiz extends Model
      * une question
      */
 
-    public function quiz() {
-        return $this->belongsToMany('App\Models\Quiz');
+    public function quizzes() {
+        return $this->belongsToMany('App\Models\Quiz', 'questionQuiz_Quiz', 'questionQuiz_id', 'quiz_id');
     }
 
     /*
      * Retourne les reponses qui concernent une question
      */
 
-    public function responseQuiz() {
-        return $this->hasMany('App\Models\ResponseQuiz');
+    public function reponseQuiz() {
+        return $this->hasMany('App\Models\ReponseQuiz');
     }
 
-    
     /*
      * Permet de valider le model 
      * 
      */
+
     public static function estValide(Request $request) {
-        
-        $question = $request->only('question');
-        
+
+        $question = $request->only('question', 'explication');
+
         // Création du validateur avec les inputs nettoyés et les règles
         $validator = Validator::make($question, array(
-            'question' => 'string|required',
+                    'question' => 'string|required',
+                    'explication' => 'string|required',
         ));
-        
+
         return $validator;
-        
+
         /*
-        return Validator::make($data, array(
-                    'explication' => 'string|between:1,60|sometimes|required',
-                    'description' => 'string|sometimes|required',
-                ))->passes();
+          return Validator::make($data, array(
+          'explication' => 'string|between:1,60|sometimes|required',
+          'description' => 'string|sometimes|required',
+          ))->passes();
          * 
          */
     }
-    
-    public static function creer() {
+
+    public static function creerQuestionReponses($inputQuestion, $inputReponses, $identifiantQuiz) {
+
+        // Créer question    
+        $question = new QuestionQuiz();
+        $question->description = $inputQuestion['question'];
+        $question->explication = $inputQuestion['explication'];
+        $question->save();
         
-        $question = new Question();
-        
-        //$question->
+        // Créer réponses
+        $compteur = 0;
+
+        // Ajout des réponses liées
+        foreach ($inputReponses['reponse'] as $reponse) {
+
+            $objetReponse = new ReponseQuiz();
+
+            // SI c'est la première réponse, alors on définit que c'est la bonne
+            if ($compteur == 0) {
+                $objetReponse->estBonneReponse = 1;
+            }
+
+            $objetReponse->description = $reponse;
+            $objetReponse->questionQuizId = $question->id;
+
+            $objetReponse->save();
+
+            $compteur++;
+        }
+
+        // Création ligne dans la table intermédiaire entre quiz et question
+        $questionQuizQuiz = new QuestionQuizQuiz();
+        $questionQuizQuiz->questionQuizzes_id = $question->id;
+        $questionQuizQuiz->quiz_id = $identifiantQuiz;
+        $questionQuizQuiz->save();
         
     }
+
 }

@@ -1,7 +1,5 @@
 <?php
 
-//
-
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
@@ -18,7 +16,7 @@ class CreateUtilisateursTable extends Migration {
             $table->increments('id')->unsigned();
             $table->string('pseudo')->unique();
             $table->string('motDePasse');
-            $table->date('anneeNaissance')->nullable();
+            $table->bigInteger('anneeNaissance')->nullable();
             $table->string('sexe')->nullable();
             $table->string('email')->nullable();
             $table->string('reponseQuestionSecrete')->nullable();
@@ -32,6 +30,8 @@ class CreateUtilisateursTable extends Migration {
             $table->foreign('regionId')->references('id')->on('regions')->onDelete('cascade');
             $table->foreign('questionSecreteId')->references('id')->on('questionsSecretes')->onDelete('cascade');
         });
+        
+        // DB::statement("ALTER TABLE utilisateurs comment 'Permet de stocker un utilisateur.'");
     }
 
     /**
@@ -40,7 +40,10 @@ class CreateUtilisateursTable extends Migration {
      * @return void
      */
     public function down() {
+        // Enlève temporairement le check des contraintes de clés étrangères
+        Schema::disableForeignKeyConstraints();
         Schema::drop('utilisateurs');
+        Schema::enableForeignKeyConstraints();
     }
 
 }

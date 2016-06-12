@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
 use App\Lib\Message;
+//use Request;
 use Illuminate\Http\Request;
-//use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
+use App\Models\QuestionQuizQuiz;
 use App\Models\QuestionQuiz;
+use App\Models\ReponseQuiz;
 use App\Models\Quiz;
 
 class QuestionQuizCtrl extends Controller {
@@ -40,32 +42,72 @@ class QuestionQuizCtrl extends Controller {
      */
     public function store(Request $request) {
         
-        // récupérerer identifiant quiz
-        $identifiantQuiz = Request::only('identifiantQuiz');
+        // Vérifier existence quiz ET pas encore validé
+        $quiz = Quiz::existe($request);
         
-        // Vérifier existence quiz et pas encore validé
-        $validationQuiz = Quiz::existe($identifiantQuiz);
-        
-        
-        $validationQuestion = QuestionQuiz::estValide($request);
-        
+        // Valide la question
+        $validationQuestion = QuestionQuiz::estValide($request);        
         if($validationQuestion->fails()) {
             return 'Pas de question :\'(';
         }
+        $questionValide = $validationQuestion->getData();
         
-        $validationReponses = ReponseQuiz::estValide($request);
-        
+        // Valide les réponses
+        $validationReponses = ReponseQuiz::estValide($request);        
         if($validationReponses->fails()) {
             return 'Pas de réponse :\'(';
         }
+        $reponsesValide = $validationReponses->getData(); 
         
-        $questionValide = $validationQuestion->getData();
         
+        
+        
+        
+        
+         // Créer question    
+        $question = new QuestionQuiz();
+        $question->description = $questionValide['question'];
+        $question->explication = $questionValide['explication'];
+        $question->save();
+        
+        // Créer réponses
+        $compteur = 0;
+
+        // Ajout des réponses liées
+        foreach ($reponsesValide['reponse'] as $reponse) {
+
+            $objetReponse = new ReponseQuiz();
+
+            // SI c'est la première réponse, alors on définit que c'est la bonne
+            if ($compteur == 0) {
+                $objetReponse->estBonneReponse = 1;
+            }
+
+            $objetReponse->description = $reponse;
+            $objetReponse->questionQuizId = $question->id;
+
+            $objetReponse->save();
+
+            $compteur++;
+        }
+        
+        echo($quiz['id']);
+
+        // Création ligne dans la table intermédiaire entre quiz et question
+        $questionQuizQuiz = new QuestionQuizQuiz();
+        $questionQuizQuiz->questionQuizzes_id = $question->id;
+        $questionQuizQuiz->quiz_id = $quiz['id'];
+        $questionQuizQuiz->save();
+        
+        
+        
+        
+        /*
         // Début de la transaction
         DB::beginTransaction();
         try {
             // On tente de créer la question et ses réponses
-            QuestionQuiz::creer($questionValide);
+            //QuestionQuiz::creerQuestionReponses($questionValide, $reponsesValide, $quiz['id']);
             
             // Si pas d'erreur, on "valide" la création
             DB::commit();
@@ -82,6 +124,8 @@ class QuestionQuizCtrl extends Controller {
             //return redirect()->back()->withInput();
             echo 'Bug à la création ...';
         }
+         * 
+         */
         
         //$inputQuestionReponses = Request::only('question', 'reponse');
         //$inputReponses = Request::only('reponse');

@@ -7,7 +7,7 @@ use Validator;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 use Illuminate\Http\Request;
-
+use App\Models\Quiz;
 
 class Quiz extends Model {
 
@@ -40,16 +40,16 @@ class Quiz extends Model {
      * Retourne les reponses d'un utilisateur pour un quiz
      */
 
-    public function responsesUtilisateurs() {
+    public function reponsesUtilisateurs() {
         return $this->hasMany('App\Models\ResponseUtilisateur');
     }
 
     /*
-     * Retourne les reponses d'un utilisateur pour un quiz
+     * Retourne les questions d'un quiz
      */
 
-    public function questionsQuiz() {
-        return $this->belongsToMany('App\Models\WuestionQuiz');
+    public function questionsQuizzes() {
+        return $this->belongsToMany('App\Models\QuestionQuiz', 'questionQuiz_Quiz', 'questionQuiz_id', 'quiz_id');
     }
 
     /*
@@ -84,7 +84,9 @@ class Quiz extends Model {
      * Vérifie l'existence d'un quiz
      * @param id
      */
-    public static function existe($id) {
+    public static function existe(Request $request) {
+        
+        $id = $request->only('identifiantQuiz');
         
         // recherche quiz dans la BD        
         $quiz = Quiz::where("id", $id)->first();
@@ -98,7 +100,7 @@ class Quiz extends Model {
             return 'ce quiz ne peut plus être modifié';
         }
         
-        return 'Ouiiiii';
+        return $quiz;
         
     }
     
