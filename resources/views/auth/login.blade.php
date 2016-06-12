@@ -18,20 +18,20 @@
                     </div>
                     @endif
 
-                    <form class="form-horizontal" role="form" method="POST" action="{{ url('connexion') }}">
-                        
+                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/auth/login') }}">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Pseudo</label>
                             <div class="col-md-6">
-                                <input type="text" class="form-control" name="pseudo">
+                                <input type="email" class="form-control" name="email" value="{{ old('email') }}">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Mot de passe</label>
                             <div class="col-md-6">
-                                <input type="password" class="form-control" name="motDePasse">
+                                <input type="password" class="form-control" name="password">
                             </div>
                         </div>
 

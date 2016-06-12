@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateGroupesTable extends Migration
+class CreateReponsesQuizTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,11 +12,15 @@ class CreateGroupesTable extends Migration
      */
     public function up()
     {
-        Schema::create('groupes', function (Blueprint $table) {
+        Schema::create('reponsesQuiz', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id')->unsigned();
-            $table->string('nom')->index();
+            $table->string('description');
+            $table->boolean('estBonneReponse');
+            $table->unsignedInteger('questionQuizId');
             $table->timestamps();
+            
+            $table->foreign('questionQuizId')->references('id')->on('questionsQuiz')->onDelete('cascade');
         });
     }
 
@@ -27,6 +31,6 @@ class CreateGroupesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('groupes');
+        Schema::drop('reponsesQuiz');
     }
 }

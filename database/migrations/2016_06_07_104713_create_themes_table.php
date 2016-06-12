@@ -18,12 +18,9 @@ class CreateThemesTable extends Migration
             $table->string('nom')->index();
             $table->unsignedInteger('categorieId');
             $table->timestamps();
-            $table->softDeletes();
             
             $table->foreign('categorieId')->references('id')->on('categories')->onDelete('cascade');
         });
-        
-        //DB::statement("ALTER TABLE themes comment 'Permet de stocker un thème appartenant à une catégorie.'");
     }
 
     /**
@@ -33,9 +30,6 @@ class CreateThemesTable extends Migration
      */
     public function down()
     {
-        // Enlève temporairement le check des contraintes de clés étrangères
-        Schema::disableForeignKeyConstraints();
         Schema::drop('themes');
-        Schema::enableForeignKeyConstraints();
     }
 }

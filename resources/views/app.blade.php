@@ -14,7 +14,7 @@
             <header class="main">
                 <ul>
                     <li>
-                        <a href="inscription">S'inscrire</a>
+                        <a href="#enregistrer">S'enregistrer</a>
                     </li>
                     <li>|</li>
                     <li>

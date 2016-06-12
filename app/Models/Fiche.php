@@ -3,8 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Validator;
 
 class Fiche extends Model
 {
@@ -15,14 +13,6 @@ class Fiche extends Model
      */
     protected $dates = ['deleted_at'];
     
-    /**
-     * les attributs qu'on peut assigner au model.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'titre', 'contenu', 'estValide','themeId'
-    ];
     //Jointures 
     
     /*
@@ -38,7 +28,7 @@ class Fiche extends Model
      */
     public function modification()
     {
-        return $this->belongsToMany('App\Models\Modification')->withTimestamps();
+        return $this->belongsTo('App\Models\Modification')->withTimestamps();
     }
     
     /*

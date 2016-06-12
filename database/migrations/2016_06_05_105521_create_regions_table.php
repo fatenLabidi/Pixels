@@ -18,12 +18,9 @@ class CreateRegionsTable extends Migration
             $table->string('nom');
             $table->unsignedInteger('paysId');
             $table->timestamps();
-            $table->softDeletes();
             
             $table->foreign('paysId')->references('id')->on('pays')->onDelete('cascade');
         });
-        
-        // DB::statement("ALTER TABLE regions comment 'Permet d\'attribuer des régions à chaque pays.'");
     }
 
     /**
@@ -33,9 +30,6 @@ class CreateRegionsTable extends Migration
      */
     public function down()
     {
-        // Enlève temporairement le check des contraintes de clés étrangères
-        Schema::disableForeignKeyConstraints();
         Schema::drop('regions');
-        Schema::enableForeignKeyConstraints();
     }
 }

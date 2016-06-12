@@ -12,11 +12,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Categories</div>
 
-                <div class="panel-body">   
-                    
-                    <form action="{{ url('home') }}" method="post" class="col s12">
-                        <button type="submit" class="btn waves-effect waves-light amber darken-4">Mémoriser</button>
-                    </form>
+                <div class="panel-body">                    
                     
                     <div id="actualites">
                     </div>

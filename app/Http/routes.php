@@ -16,39 +16,14 @@ use Illuminate\Http\RedirectResponse;
 
 Route::group(['middleware' => ['web']], function () {
     
-    // Affiche la page "home"
     Route::get('/', 'HomeCtrl@index');
     
-    // Connexion
-    Route::get('login', 'AuthController@index');
+    Route::get('login', 'Auth\AuthController@index');    
     
-    // Inscription utilisateur
-    Route::get('inscription', 'InscriptionController@index');
-    
-    // Création quiz
-    Route::get('nouveauQuiz', 'QuizCtrl@create');
-    Route::resource('creerQuiz', 'QuizCtrl@store');
-    
-    Route::get('nouvelleQuestion', 'QuestionQuizCtrl@create');
-    Route::resource('creerQuestionQuiz', 'QuestionQuizCtrl@store');
-    //Route::get('quiz/creer', 'QuizCtrl@')
-    
-    
-    
-    // Afficher quiz
-    //Route::get('nouvelleQuestionQuiz/{id}', 'QuizCtrl@show');
-    //Route::get('user/{id}', 'UserController@showProfile');
-    
-    // Création question quiz
-    Route::get('quiz/creerQuestionQuiz/{id}', 'QuestionQuizCtrl@create');
-    //Route::resource('creerQuiz', 'QuizCtrl@store');
-    
-    //Route::get('creerQuiz', 'QuizCtrl@store');
+    //
 
-    // Juste un test pour envoyer un formulaire depuis login
-    Route::resource('connexion', 'AuthController@connexion');
-    
 });
+
 
 
 /*

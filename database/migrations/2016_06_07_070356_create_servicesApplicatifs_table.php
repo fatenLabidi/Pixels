@@ -17,10 +17,7 @@ class CreateServicesApplicatifsTable extends Migration
             $table->increments('id')->unsigned();
             $table->string('nom')->index();
             $table->timestamps();
-            $table->softDeletes();
         });
-        
-        // DB::statement("ALTER TABLE servicesApplicatifs comment 'Permet de lister les différents services applicatifs'");
     }
 
     /**
@@ -30,9 +27,6 @@ class CreateServicesApplicatifsTable extends Migration
      */
     public function down()
     {
-        // Enlève temporairement le check des contraintes de clés étrangères
-        Schema::disableForeignKeyConstraints();
         Schema::drop('servicesApplicatifs');
-        Schema::enableForeignKeyConstraints();
     }
 }
